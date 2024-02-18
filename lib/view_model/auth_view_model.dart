@@ -28,6 +28,9 @@ class AuthViewModel with ChangeNotifier {
     _authRepo.googleAuthService();
   }
 
+  void passwordSignOutApi() {
+    _authRepo.passwordSignOut();
+  }
   // void getUserAuthDataApi(user) {
   //   _authRepo.getUserAuthDataService(user);
   // }

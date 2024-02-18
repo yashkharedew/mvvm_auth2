@@ -201,6 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onPressed: () {
                   // Navigate to the sign-in or home screen after signing out
                   _signOut();
+                  authViewModel.passwordSignOutApi();
                 },
                 child: Text('Sign Out'),
               ),

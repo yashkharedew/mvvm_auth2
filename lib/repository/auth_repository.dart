@@ -19,6 +19,10 @@ class AuthRepository {
     return response;
   }
 
+  void passwordSignOut() {
+    final response = _authService.passwordSignOut();
+  }
+
   // void getUserAuthDataService(user) {
   //   final response = _authService.getUserAuthData(user);
   // }

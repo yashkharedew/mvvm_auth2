@@ -14,6 +14,9 @@ abstract class BaseApiServices {
   // Google Authentication Service Auth
   Future<dynamic> googleAuth();
 
+  // signout auth features
+  void passwordSignOut();
+
   // add user data
   void addUserData();
 

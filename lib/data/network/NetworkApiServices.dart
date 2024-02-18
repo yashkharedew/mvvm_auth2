@@ -86,6 +86,11 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
+  void passwordSignOut() {
+    FirebaseAuth.instance.signOut();
+  }
+
+  @override
   Future<dynamic> getUserAuthData(User user) async {
     // TODO: implement getUserAuthData
     User? user = FirebaseAuth.instance.currentUser;
