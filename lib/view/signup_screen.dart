@@ -146,12 +146,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Utils.show_Simple_Snackbar(
                             context, 'Password', 'Password is too short ');
                       } else {
-                        final String username =
-                            _usernameController.text.toString();
                         final String email = _emailController.text.toString();
                         final String password =
                             _passwordController.text.toString();
-
+                        final String username =
+                            _usernameController.text.toString();
                         authViewModel.signUpApi(
                             email, password, username, context);
 
@@ -159,6 +158,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         // _addUserData();
                         addUserViewModel.addUserApi();
+                        // final User? user = FirebaseAuth.instance.currentUser;
+
+                        // user != null
+                        //     ? Navigator.pushNamed(context, RoutesName.home)
+                        //     : Navigator.pushNamed(context, RoutesName.signup);
+
+                        // Navigator.pushNamed(context, RoutesName.profile);
+                        FirebaseAuth.instance.currentUser != null
+                            ? Navigator.pushNamed(context, RoutesName.profile)
+                            : Utils.toastMsg(
+                                'Some Error occured! Again try to sign in');
                         print('Api hit');
                       }
                     },

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm_auth2/utils/routes/routes.dart';
 import 'package:mvvm_auth2/utils/routes/routes_name.dart';
 import 'package:mvvm_auth2/view/login_screen.dart';
+import 'package:mvvm_auth2/view_model/add_bottom_nav_view_model.dart';
 import 'package:mvvm_auth2/view_model/auth_view_model.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
 import 'package:mvvm_auth2/view_model/get_user_view_model.dart';
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ListenableProvider<AuthViewModel>(create: (_) => AuthViewModel()),
         ListenableProvider<AddUserViewModel>(create: (_) => AddUserViewModel()),
-        ListenableProvider<GetUserViewModel>(create: (_) => GetUserViewModel())
+        ListenableProvider<GetUserViewModel>(create: (_) => GetUserViewModel()),
+        ListenableProvider<AddBottomNavViewModel>(
+            create: (_) => AddBottomNavViewModel()),
       ],
       child: MaterialApp(
         title: 'MVVM Firebase Authentication',

@@ -6,12 +6,12 @@ import 'package:mvvm_auth2/data/network/NetworkApiServices.dart';
 class AuthRepository {
   final BaseApiServices _authService = NetworkApiServices();
 
-  void signInAuthService(email, password) {
-    final response = _authService.signInAuth(email, password);
-  }
-
   void signUpAuthService(email, password, username) {
     final response = _authService.signUpAuth(email, password, username);
+  }
+
+  void signInAuthService(email, password) {
+    final response = _authService.signInAuth(email, password);
   }
 
   Future<dynamic> googleAuthService() {

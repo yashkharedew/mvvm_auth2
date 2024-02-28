@@ -8,5 +8,6 @@ class AddUserViewModel with ChangeNotifier {
 
   void addUserApi() {
     _addUserRepo.addUserServiceRepo();
+    // notifyListeners();
   }
 }

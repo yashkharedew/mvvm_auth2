@@ -6,10 +6,11 @@ abstract class BaseApiServices {
   Future<dynamic> getGetApiResponse(String url);
   Future<dynamic> getPostApiResponse(String url, dynamic data);
 
-  // Firebase Authentication SignIn Service
-  void signInAuth(email, password);
   // Firebase Authentication SignUp service
   void signUpAuth(email, password, username);
+
+  // Firebase Authentication SignIn Service
+  void signInAuth(email, password);
 
   // Google Authentication Service Auth
   Future<dynamic> googleAuth();
@@ -19,6 +20,9 @@ abstract class BaseApiServices {
 
   // add user data
   void addUserData();
+
+  // add bottom nav data
+  void bottomNavData();
 
   // get user data
   // Fetch data from firestore database

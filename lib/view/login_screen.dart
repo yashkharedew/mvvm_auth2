@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../resources/widgets/buttons.dart';
 import '../resources/widgets/textButtons.dart';
 import '../utils/routes/routes_name.dart';
+import '../view_model/add_user_view_model.dart';
 import '../view_model/auth_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -30,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
+    final addUserViewModel = Provider.of<AddUserViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Screen'),
@@ -99,7 +102,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         var password = _passwordController.text.toString();
 
                         authViewModel.signInApi(email, password, context);
-                        Navigator.pushNamed(context, RoutesName.profile);
+                        // Navigator.pushNamed(context, RoutesName.profile);
+                        addUserViewModel.addUserApi();
+                        // final User? user = FirebaseAuth.instance.currentUser;
+                        // user != null
+                        //     ? Navigator.pushNamed(context, RoutesName.home)
+                        //     : Navigator.pushNamed(context, RoutesName.signup);
+                        FirebaseAuth.instance.currentUser != null
+                            ? Navigator.pushNamed(context, RoutesName.profile)
+                            : Utils.toastMsg(
+                                'Some Error occured! Again try to sign in');
                         print('Api hit');
                       }
                     },

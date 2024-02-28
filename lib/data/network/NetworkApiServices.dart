@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mvvm_auth2/data/network/BaseApiServices.dart';
 import 'package:http/http.dart' as http;
+import 'package:mvvm_auth2/model/bottom_nav_model.dart';
 import 'package:mvvm_auth2/model/user_model.dart';
 
 import '../app_exception.dart';
@@ -34,10 +36,10 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  void signInAuth(email, password) async {
-    final credential;
+  void signUpAuth(email, password, username) async {
+    final UserCredential credential;
     try {
-      credential = (await FirebaseAuth.instance.signInWithEmailAndPassword(
+      credential = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       ));
@@ -51,10 +53,10 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  void signUpAuth(email, password, username) async {
-    final UserCredential credential;
+  void signInAuth(email, password) async {
+    final credential;
     try {
-      credential = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      credential = (await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       ));
@@ -124,6 +126,23 @@ class NetworkApiServices extends BaseApiServices {
         "uid": userData.userId,
         "Name": userData.fullNames,
         "Email": userData.email
+      },
+    );
+  }
+
+  @override
+  void bottomNavData() {
+    final bottomData = BottomNavModel(
+      bt1: 'btm1',
+      bt2: 'btm2',
+      bt3: 'btm3',
+    );
+
+    db.collection("Users").doc('BottomNav').set(
+      <String, dynamic>{
+        "bottom1": bottomData.bt1,
+        "bottom2": bottomData.bt2,
+        "bottom3": bottomData.bt3,
       },
     );
   }
