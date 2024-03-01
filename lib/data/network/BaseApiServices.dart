@@ -7,13 +7,13 @@ abstract class BaseApiServices {
   Future<dynamic> getPostApiResponse(String url, dynamic data);
 
   // Firebase Authentication SignUp service
-  void signUpAuth(email, password, username);
+  Future signUpAuth(email, password, username);
 
   // Firebase Authentication SignIn Service
   void signInAuth(email, password);
 
   // Google Authentication Service Auth
-  Future<dynamic> googleAuth();
+  Future googleAuth();
 
   // signout auth features
   void passwordSignOut();

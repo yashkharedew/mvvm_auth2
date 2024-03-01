@@ -23,10 +23,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ListenableProvider<AuthViewModel>(create: (_) => AuthViewModel()),
-        ListenableProvider<AddUserViewModel>(create: (_) => AddUserViewModel()),
-        ListenableProvider<GetUserViewModel>(create: (_) => GetUserViewModel()),
-        ListenableProvider<AddBottomNavViewModel>(
+        ChangeNotifierProvider<AuthViewModel>(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider<AddUserViewModel>(
+            create: (_) => AddUserViewModel()),
+        ChangeNotifierProvider<GetUserViewModel>(
+            create: (_) => GetUserViewModel()),
+        ChangeNotifierProvider<AddBottomNavViewModel>(
             create: (_) => AddBottomNavViewModel()),
       ],
       child: MaterialApp(

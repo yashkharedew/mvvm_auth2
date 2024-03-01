@@ -14,7 +14,7 @@ import '../app_exception.dart';
 
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson;
-  final User? user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
@@ -36,13 +36,15 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  void signUpAuth(email, password, username) async {
+  Future signUpAuth(email, password, username) async {
     final UserCredential credential;
     try {
       credential = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       ));
+      user = credential.user;
+      print(user!.email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw BadDataException(e.toString());
@@ -70,21 +72,41 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future<dynamic> googleAuth() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future googleAuth() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+
+        user = userCredential.user;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          // handle the error here
+        } else if (e.code == 'invalid-credential') {
+          // handle the error here
+        }
+      } catch (e) {
+        // handle the error here
+      }
+    }
+
+    return user;
   }
 
   @override
@@ -115,7 +137,10 @@ class NetworkApiServices extends BaseApiServices {
     //     "Name": user!.displayName,
     //     "Email": user!.email
     //   },
-    // );
+    // );\
+
+    final user = FirebaseAuth.instance.currentUser;
+    print("add user ---${user!.email}");
     final userData = UserModel(
         userId: user!.uid,
         fullNames: user!.displayName ?? 'Not Getting UserName',

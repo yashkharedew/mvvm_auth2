@@ -135,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Container(
                 child: Buttons(
-                    BtnOnPress: () {
+                    BtnOnPress: () async {
                       if (_emailController.text.isEmpty) {
                         Utils.show_Simple_Snackbar(
                             context, 'Email', 'Email is empty');
@@ -151,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _passwordController.text.toString();
                         final String username =
                             _usernameController.text.toString();
-                        authViewModel.signUpApi(
+                        await authViewModel.signUpApi(
                             email, password, username, context);
 
                         // Navigator.pushNamed(context, RoutesName.profile);
@@ -196,12 +196,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 8,
               ),
               ElevatedButton(
-                  onPressed: () {
-                    authViewModel.googleAuthApi();
+                  onPressed: () async {
+                    await authViewModel.googleAuthApi();
                     // Navigator.pushNamed(context, RoutesName.profile);
 
                     // _addUserData();
                     addUserViewModel.addUserApi();
+                    FirebaseAuth.instance.currentUser != null
+                        ? Navigator.pushNamed(context, RoutesName.profile)
+                        : Utils.toastMsg(
+                            'Some Error occured! Again try to sign in');
                   },
                   child: Text('Google Login')),
               SizedBox(
