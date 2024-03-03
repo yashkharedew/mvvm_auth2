@@ -7,7 +7,7 @@ import '../utils/utils.dart';
 class AuthViewModel with ChangeNotifier {
   final _authRepo = AuthRepository();
 
-  void signUpApi(email, password, username, BuildContext context) {
+  Future signUpApi(email, password, username, BuildContext context) async {
     // _authRepo.signUpAuthService(email, password, username).then((value) {
     //   if (kDebugMode) {
     //     print(value.toString());
@@ -17,15 +17,15 @@ class AuthViewModel with ChangeNotifier {
     //     print(error.toString());
     //   }
     // });
-    _authRepo.signUpAuthService(email, password, username);
+    await _authRepo.signUpAuthService(email, password, username);
   }
 
   void signInApi(email, password, BuildContext context) async {
     _authRepo.signInAuthService(email, password);
   }
 
-  Future<void> googleAuthApi() async {
-    _authRepo.googleAuthService();
+  Future googleAuthApi() async {
+    await _authRepo.googleAuthService();
   }
 
   void passwordSignOutApi() {

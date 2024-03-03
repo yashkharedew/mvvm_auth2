@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mvvm_auth2/data/network/BaseApiServices.dart';
@@ -14,7 +15,7 @@ import '../app_exception.dart';
 
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson;
-  final User? user = FirebaseAuth.instance.currentUser;
+  User? users = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
@@ -36,13 +37,15 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  void signUpAuth(email, password, username) async {
+  Future signUpAuth(email, password, username) async {
     final UserCredential credential;
     try {
       credential = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       ));
+      users = credential.user;
+      print(users!.email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw BadDataException(e.toString());
@@ -70,21 +73,40 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future<dynamic> googleAuth() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future googleAuth() async {
+    users = FirebaseAuth.instance.currentUser;
+    FirebaseAuth auth = FirebaseAuth.instance;
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+
+        users = userCredential.user;
+        print("Google auth---${users!.email}");
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          // handle the error here
+        } else if (e.code == 'invalid-credential') {
+          // handle the error here
+        }
+      } catch (e) {
+        // handle the error here
+      }
+    }
   }
 
   @override
@@ -95,8 +117,8 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future<dynamic> getUserAuthData(User user) async {
     // TODO: implement getUserAuthData
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    users = FirebaseAuth.instance.currentUser;
+    if (users != null) {
       print("User Display Name: ${user.displayName}");
       print("User Email: ${user.email}");
       print("User Photo URL: ${user.photoURL}");
@@ -104,7 +126,7 @@ class NetworkApiServices extends BaseApiServices {
     } else {
       throw BadDataException('user not found');
     }
-    return user;
+    return users;
   }
 
   @override
@@ -115,11 +137,14 @@ class NetworkApiServices extends BaseApiServices {
     //     "Name": user!.displayName,
     //     "Email": user!.email
     //   },
-    // );
+    // );\
+
+    users = FirebaseAuth.instance.currentUser;
+    print("add user ---${users!.email}");
     final userData = UserModel(
-        userId: user!.uid,
-        fullNames: user!.displayName ?? 'Not Getting UserName',
-        email: user!.email ?? 'Not Getting Email');
+        userId: users!.uid,
+        fullNames: users!.displayName ?? 'Not Getting UserName',
+        email: users!.email ?? 'Not Getting Email');
 
     db.collection("Users").doc(userData.email).set(
       <String, dynamic>{
@@ -149,8 +174,9 @@ class NetworkApiServices extends BaseApiServices {
 
   @override
   Future<dynamic> fetchUserData() async {
+    users = FirebaseAuth.instance.currentUser;
     final personnalData =
-        FirebaseFirestore.instance.collection('Users').doc(user!.email).get();
+        FirebaseFirestore.instance.collection('Users').doc(users!.email).get();
 
     return personnalData;
   }
