@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mvvm_auth2/view/user_data/user_display_name.dart';
+import 'package:mvvm_auth2/view/user_data/user_email.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -35,16 +36,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SafeArea(
         child: Center(
           child: Card(
+            borderOnForeground: true,
+            color: Color.fromARGB(255, 220, 220, 220),
             clipBehavior: Clip.hardEdge,
             child: InkWell(
               splashColor: Colors.blue.withAlpha(30),
               onTap: () {
                 debugPrint('Card tapped.');
               },
-              child: const SizedBox(
-                width: 300,
-                height: 100,
-                child: UserDisplayName(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    child: UserDisplayName(),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    child: UserEmail(),
+                  )
+                ],
               ),
             ),
           ),

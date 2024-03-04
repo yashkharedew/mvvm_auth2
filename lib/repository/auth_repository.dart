@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mvvm_auth2/data/app_exception.dart';
-import 'package:mvvm_auth2/data/network/BaseApiServices.dart';
-import 'package:mvvm_auth2/data/network/NetworkApiServices.dart';
+import 'package:mvvm_auth2/data/network/base_api_services.dart';
+import 'package:mvvm_auth2/data/network/network_api_services.dart';
 
 class AuthRepository {
   final BaseApiServices _authService = NetworkApiServices();
 
-  Future signUpAuthService(email, password, username) async {
-    final response = await _authService.signUpAuth(email, password, username);
+  Future signUpAuthService(email, password, name) async {
+    final response = await _authService.signUpAuth(email, password, name);
   }
 
-  void signInAuthService(email, password) {
-    final response = _authService.signInAuth(email, password);
+  Future signInAuthService(email, password) async {
+    final response = await _authService.signInAuth(email, password);
   }
 
   Future googleAuthService() async {

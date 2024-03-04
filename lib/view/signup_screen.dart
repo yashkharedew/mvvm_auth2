@@ -23,11 +23,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  FocusNode userNameFocusNode = FocusNode();
+  FocusNode nameFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
@@ -87,12 +87,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             children: [
               TextFormField(
-                controller: _usernameController,
-                focusNode: userNameFocusNode,
+                controller: _nameController,
+                focusNode: nameFocusNode,
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
-                  hintText: 'UserName',
-                  labelText: 'UserName',
+                  hintText: 'Name',
+                  labelText: 'Name',
                   prefixIcon: Icon(Icons.person),
                 ),
                 textInputAction: TextInputAction.next,
@@ -149,8 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         final String email = _emailController.text.toString();
                         final String password =
                             _passwordController.text.toString();
-                        final String username =
-                            _usernameController.text.toString();
+                        final String username = _nameController.text.toString();
                         await authViewModel.signUpApi(
                             email, password, username, context);
 
@@ -166,7 +165,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         // Navigator.pushNamed(context, RoutesName.profile);
                         FirebaseAuth.instance.currentUser != null
-                            ? Navigator.pushNamed(context, RoutesName.profile)
+                            ? Navigator.pushNamed(
+                                context, RoutesName.navigateScreen)
                             : Utils.toastMsg(
                                 'Some Error occured! Again try to sign in');
                         print('Api hit');
@@ -203,7 +203,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // _addUserData();
                     addUserViewModel.addUserApi();
                     FirebaseAuth.instance.currentUser != null
-                        ? Navigator.pushNamed(context, RoutesName.profile)
+                        ? Navigator.pushNamed(
+                            context, RoutesName.navigateScreen)
                         : Utils.toastMsg(
                             'Some Error occured! Again try to sign in');
                   },
