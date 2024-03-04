@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mvvm_auth2/data/network/BaseApiServices.dart';
+import 'package:mvvm_auth2/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mvvm_auth2/model/bottom_nav_model.dart';
 import 'package:mvvm_auth2/model/user_model.dart';
@@ -37,7 +37,7 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future signUpAuth(email, password, username) async {
+  Future signUpAuth(email, password, name) async {
     final UserCredential credential;
     try {
       credential = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -56,13 +56,14 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  void signInAuth(email, password) async {
+  Future signInAuth(email, password) async {
     final credential;
     try {
       credential = (await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       ));
+      users = credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw BadDataException(e.toString());
@@ -114,20 +115,20 @@ class NetworkApiServices extends BaseApiServices {
     FirebaseAuth.instance.signOut();
   }
 
-  @override
-  Future<dynamic> getUserAuthData(User user) async {
-    // TODO: implement getUserAuthData
-    users = FirebaseAuth.instance.currentUser;
-    if (users != null) {
-      print("User Display Name: ${user.displayName}");
-      print("User Email: ${user.email}");
-      print("User Photo URL: ${user.photoURL}");
-      // Add more fields as needed
-    } else {
-      throw BadDataException('user not found');
-    }
-    return users;
-  }
+  // @override
+  // Future<dynamic> getUserAuthData(User user) async {
+  //   // TODO: implement getUserAuthData
+  //   users = FirebaseAuth.instance.currentUser;
+  //   if (users != null) {
+  //     print("User Display Name: ${user.displayName}");
+  //     print("User Email: ${user.email}");
+  //     print("User Photo URL: ${user.photoURL}");
+  //     // Add more fields as needed
+  //   } else {
+  //     throw BadDataException('user not found');
+  //   }
+  //   return users;
+  // }
 
   @override
   void addUserData() {
@@ -143,7 +144,7 @@ class NetworkApiServices extends BaseApiServices {
     print("add user ---${users!.email}");
     final userData = UserModel(
         userId: users!.uid,
-        fullNames: users!.displayName ?? 'Not Getting UserName',
+        fullNames: users!.displayName ?? 'Not Getting Name',
         email: users!.email ?? 'Not Getting Email');
 
     db.collection("Users").doc(userData.email).set(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm_auth2/utils/routes/routes_name.dart';
-import 'package:mvvm_auth2/view/home_screen.dart';
+import 'package:mvvm_auth2/view/appointments_tab_screen.dart';
+import 'package:mvvm_auth2/view/consult_now_tab_screen.dart';
+import 'package:mvvm_auth2/view/navigate_screen.dart';
 import 'package:mvvm_auth2/view/login_screen.dart';
 import 'package:mvvm_auth2/view/profile_screen.dart';
 
@@ -9,9 +11,9 @@ import '../../view/signup_screen.dart';
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RoutesName.home:
+      case RoutesName.navigateScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const HomeScreen());
+            builder: (BuildContext context) => const NavigateScreen());
 
       case RoutesName.login:
         return MaterialPageRoute(
@@ -24,6 +26,14 @@ class Routes {
       case RoutesName.profile:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ProfileScreen());
+
+      case RoutesName.appointmentsTabScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const AppointmentsTabScreen());
+
+      case RoutesName.consultNowTabScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ConsultNowTabScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {

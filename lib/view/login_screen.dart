@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Container(
                 child: Buttons(
-                    BtnOnPress: () {
+                    BtnOnPress: () async {
                       if (_emailController.text.isEmpty) {
                         Utils.show_Simple_Snackbar(
                             context, 'Email', 'Email is empty');
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         var email = _emailController.text.toString();
                         var password = _passwordController.text.toString();
 
-                        authViewModel.signInApi(email, password, context);
+                        await authViewModel.signInApi(email, password, context);
                         // Navigator.pushNamed(context, RoutesName.profile);
                         addUserViewModel.addUserApi();
                         // final User? user = FirebaseAuth.instance.currentUser;
@@ -109,7 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         //     ? Navigator.pushNamed(context, RoutesName.home)
                         //     : Navigator.pushNamed(context, RoutesName.signup);
                         FirebaseAuth.instance.currentUser != null
-                            ? Navigator.pushNamed(context, RoutesName.profile)
+                            ? Navigator.pushNamed(
+                                context, RoutesName.navigateScreen)
                             : Utils.toastMsg(
                                 'Some Error occured! Again try to sign in');
                         print('Api hit');

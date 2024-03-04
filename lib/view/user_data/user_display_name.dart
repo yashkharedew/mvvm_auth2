@@ -39,7 +39,7 @@ class _UserDisplayNameState extends State<UserDisplayName> {
             return Center(
                 // here only return is missing
                 child: Text(
-              snapshot.data!['Email'],
+              snapshot.data!['Name'],
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ));
           }
