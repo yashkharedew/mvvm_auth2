@@ -159,16 +159,21 @@ class NetworkApiServices extends BaseApiServices {
   @override
   void bottomNavData() {
     final bottomData = BottomNavModel(
-      bt1: 'btm1',
-      bt2: 'btm2',
-      bt3: 'btm3',
-    );
+        homeIcon: Icons.home.codePoint.toString(),
+        homeTitle: 'Home',
+        appointmentIcon: Icons.document_scanner.codePoint.toString(),
+        appointmentTitle: 'Appointments',
+        consultNowIcon: Icons.add.codePoint.toString(),
+        consultNowTitle: 'Consult Now');
 
-    db.collection("Users").doc('BottomNav').set(
+    db.collection("BottomNav").doc('bottomNavCodeIcon').set(
       <String, dynamic>{
-        "bottom1": bottomData.bt1,
-        "bottom2": bottomData.bt2,
-        "bottom3": bottomData.bt3,
+        "HomeIcon": bottomData.homeIcon,
+        "HomeTitle": bottomData.homeTitle,
+        "AppointmentsIcon": bottomData.appointmentIcon,
+        "AppointmentsTitle": bottomData.appointmentTitle,
+        "ConsultNowIcon": bottomData.consultNowIcon,
+        "ConsultNowTitle": bottomData.consultNowTitle,
       },
     );
   }
@@ -180,6 +185,14 @@ class NetworkApiServices extends BaseApiServices {
         FirebaseFirestore.instance.collection('Users').doc(users!.email).get();
 
     return personnalData;
+  }
+
+  @override
+  Future<dynamic> getIconFromFirestore() async {
+    final iconFetchData =
+        await db.collection('BottomNav').doc('bottomNavCodeIcon').get();
+
+    return iconFetchData;
   }
 }
 
