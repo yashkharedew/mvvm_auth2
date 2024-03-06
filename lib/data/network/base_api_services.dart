@@ -27,4 +27,7 @@ abstract class BaseApiServices {
   // get user data
   // Fetch data from firestore database
   Future<dynamic> fetchUserData();
+
+  // Fetch icon data from firestore database
+  Future<dynamic> getIconFromFirestore();
 }

@@ -13,6 +13,7 @@ import '../model/user_model.dart';
 import '../resources/widgets/buttons.dart';
 import '../resources/widgets/textButtons.dart';
 import '../utils/utils.dart';
+import '../view_model/add_bottom_nav_view_model.dart';
 import '../view_model/add_user_view_model.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -70,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
     final addUserViewModel = Provider.of<AddUserViewModel>(context);
+    final addBottomViewModel = Provider.of<AddBottomNavViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
@@ -227,7 +229,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   BtnText: 'Already have an account, Sign In',
                 ),
-              )
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  addBottomViewModel.addBottomNavApi();
+                },
+                child: Text('Add bottom nav data'),
+              ),
             ],
           ),
         ),
