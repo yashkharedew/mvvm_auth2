@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
             create: (_) => GetBottomIconViewModel())
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'MVVM Firebase Authentication',
         theme: ThemeData(
           primarySwatch: Colors.blue,

@@ -210,14 +210,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 8,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the sign-in or home screen after signing out
-                  _signOut();
-                  authViewModel.passwordSignOutApi();
-                },
-                child: Text('Sign Out'),
-              ),
               Container(
                 child: TextButtons(
                   TxtBtnOnPress: () {
