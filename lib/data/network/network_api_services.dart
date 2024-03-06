@@ -157,7 +157,7 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  void bottomNavData() {
+  Future bottomNavData() async {
     final bottomData = BottomNavModel(
         homeIcon: Icons.home.codePoint.toString(),
         homeTitle: 'Home',
@@ -166,7 +166,7 @@ class NetworkApiServices extends BaseApiServices {
         consultNowIcon: Icons.add.codePoint.toString(),
         consultNowTitle: 'Consult Now');
 
-    db.collection("BottomNav").doc('bottomNavCodeIcon').set(
+    await db.collection("BottomNav").doc('bottomNavCodeIcon').set(
       <String, dynamic>{
         "HomeIcon": bottomData.homeIcon,
         "HomeTitle": bottomData.homeTitle,

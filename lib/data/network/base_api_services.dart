@@ -22,7 +22,7 @@ abstract class BaseApiServices {
   void addUserData();
 
   // add bottom nav data
-  void bottomNavData();
+  Future bottomNavData();
 
   // get user data
   // Fetch data from firestore database
