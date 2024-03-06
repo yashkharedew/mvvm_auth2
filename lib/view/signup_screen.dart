@@ -188,12 +188,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 8,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, RoutesName.profile);
-                },
-                child: Text('Edit Profile'),
-              ),
               SizedBox(
                 height: 8,
               ),
@@ -205,8 +199,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // _addUserData();
                     addUserViewModel.addUserApi();
                     FirebaseAuth.instance.currentUser != null
-                        ? Navigator.pushNamed(
-                            context, RoutesName.navigateScreen)
+                        ? await Navigator.pushNamed(
+                                context, RoutesName.navigateScreen)
+                            .then(
+                                (value) => addBottomViewModel.addBottomNavApi())
                         : Utils.toastMsg(
                             'Some Error occured! Again try to sign in');
                   },
@@ -232,12 +228,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(
                 height: 8,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  addBottomViewModel.addBottomNavApi();
-                },
-                child: Text('Add bottom nav data'),
               ),
             ],
           ),
