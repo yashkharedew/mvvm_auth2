@@ -3,11 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:mvvm_auth2/utils/routes/routes_name.dart';
 import 'package:mvvm_auth2/view/user_data/user_display_name.dart';
 import 'package:mvvm_auth2/view/user_data/user_email.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../view_model/auth_view_model.dart';
 import '../view_model/get_user_view_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,16 +25,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   late Stream<DocumentSnapshot<Map<String, dynamic>>> personnalData =
       db.collection("Users").doc(user?.email).snapshots();
-  // get user data from FirebaseFirestore
+  // Logout user
 
-  void getUserData() {}
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
+  void _signOut() {
+    googleSignIn.signOut();
+    print("User Signed out");
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final profileViewModel = Provider.of<GetUserViewModel>(context);
+    final authViewModel = Provider.of<AuthViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Screen'),
+        actions: [
+          InkWell(
+            onTap: () async {
+              setState(() {
+                _signOut();
+                authViewModel.passwordSignOutApi();
+              });
+              await Navigator.pushNamed(context, RoutesName.signup);
+            },
+            child: Container(
+                padding: EdgeInsets.all(8.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                child: Icon(IconData(0xe3b3, fontFamily: 'MaterialIcons'))),
+          )
+        ],
       ),
       body: SafeArea(
         child: Center(
