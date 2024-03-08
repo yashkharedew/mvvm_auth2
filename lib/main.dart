@@ -8,6 +8,7 @@ import 'package:mvvm_auth2/view_model/add_bottom_nav_view_model.dart';
 import 'package:mvvm_auth2/view_model/auth_view_model.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
 import 'package:mvvm_auth2/view_model/get_bottom_icon_view_model.dart';
+import 'package:mvvm_auth2/view_model/get_doctor_details_view_model.dart';
 import 'package:mvvm_auth2/view_model/get_user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AddBottomNavViewModel>(
             create: (_) => AddBottomNavViewModel()),
         ChangeNotifierProvider<GetBottomIconViewModel>(
-            create: (_) => GetBottomIconViewModel())
+            create: (_) => GetBottomIconViewModel()),
+        ChangeNotifierProvider<GetDoctorDetailsViewModel>(
+            create: (_) => GetDoctorDetailsViewModel())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

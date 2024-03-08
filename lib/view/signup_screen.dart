@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mvvm_auth2/utils/routes/routes_name.dart';
+import 'package:mvvm_auth2/view_model/add_doctor_details_view_model.dart';
 import 'package:mvvm_auth2/view_model/auth_view_model.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -199,10 +200,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // _addUserData();
                     addUserViewModel.addUserApi();
                     FirebaseAuth.instance.currentUser != null
-                        ? await Navigator.pushNamed(
-                                context, RoutesName.navigateScreen)
-                            .then(
-                                (value) => addBottomViewModel.addBottomNavApi())
+                        // ? await Navigator.pushNamed(
+                        //         context, RoutesName.navigateScreen)
+                        //     .then((value) => Future.wait([
+                        //           addBottomViewModel.addBottomNavApi(),
+                        //           addBottomViewModel.addDoctorDetailsApi()
+                        //         ]))
+                        ? await Future.wait([
+                            Navigator.pushNamed(
+                                context, RoutesName.navigateScreen),
+                            addBottomViewModel.addBottomNavApi(),
+                            addBottomViewModel.addDoctorDetailsApi()
+                          ])
                         : Utils.toastMsg(
                             'Some Error occured! Again try to sign in');
                   },

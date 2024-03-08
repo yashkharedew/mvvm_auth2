@@ -4,11 +4,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mvvm_auth2/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mvvm_auth2/model/bottom_nav_model.dart';
+import 'package:mvvm_auth2/model/doctor_card_model.dart';
 import 'package:mvvm_auth2/model/user_model.dart';
 
 import '../app_exception.dart';
@@ -178,6 +180,26 @@ class NetworkApiServices extends BaseApiServices {
     );
   }
 
+  // add doctor card data
+  // Add image url from firebase storage to firestore database
+  @override
+  Future addDoctorCardData() async {
+    var storageRef =
+        FirebaseStorage.instance.ref().child('DoctorImages/doctor.png');
+    var downloadUrl = await storageRef.getDownloadURL();
+
+    final doctorData = DoctorCardModel(
+        imageUrl: downloadUrl.toString(),
+        name: 'Dr. U.S.Tiwari',
+        speciality: 'General Physician(MBBS)');
+
+    await db.collection('DoctorsData').doc('doctor_list').set(<String, dynamic>{
+      "imageUrl": doctorData.imageUrl,
+      "name": doctorData.name,
+      "speciality": doctorData.speciality
+    });
+  }
+
   @override
   Future<dynamic> fetchUserData() async {
     users = FirebaseAuth.instance.currentUser;
@@ -193,6 +215,13 @@ class NetworkApiServices extends BaseApiServices {
         await db.collection('BottomNav').doc('bottomNavCodeIcon').get();
 
     return iconFetchData;
+  }
+
+  @override
+  Future<dynamic> getDoctorCardData() async {
+    final doctorData =
+        await db.collection('DoctorsData').doc('doctor_list').get();
+    return doctorData;
   }
 }
 
