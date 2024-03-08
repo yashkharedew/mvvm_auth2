@@ -24,10 +24,16 @@ abstract class BaseApiServices {
   // add bottom nav data
   Future bottomNavData();
 
+  // add doctor card data
+  Future addDoctorCardData();
+
   // get user data
   // Fetch data from firestore database
   Future<dynamic> fetchUserData();
 
   // Fetch icon data from firestore database
   Future<dynamic> getIconFromFirestore();
+
+  // Getting details about doctors
+  Future<dynamic> getDoctorCardData();
 }

@@ -1,4 +1,4 @@
-# mvvm_auth2
+# Online Doctor Consultancy App
 
 A new Flutter project.
 
