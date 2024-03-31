@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mvvm_auth2/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
+import 'package:mvvm_auth2/model/appointment_model.dart';
 import 'package:mvvm_auth2/model/bottom_nav_model.dart';
 import 'package:mvvm_auth2/model/doctor_card_model.dart';
 import 'package:mvvm_auth2/model/user_model.dart';
+import 'package:mvvm_auth2/view/doctor_details/doctor_card.dart';
 
 import '../app_exception.dart';
 
@@ -189,16 +191,40 @@ class NetworkApiServices extends BaseApiServices {
     var downloadUrl = await storageRef.getDownloadURL();
 
     final doctorData = DoctorCardModel(
-        imageUrl: downloadUrl.toString(),
-        name: 'Dr. U.S.Tiwari',
-        speciality: 'General Physician(MBBS)');
+      uid: 101,
+      imageUrl: downloadUrl.toString(),
+      name: 'Dr. U.S.Tiwari',
+      speciality: 'General Physician(MBBS)',
+    );
 
-    await db.collection('DoctorsData').doc('doctor_list').set(<String, dynamic>{
+    await db
+        .collection('DoctorsData')
+        .doc(doctorData.uid.toString())
+        .set(<String, dynamic>{
+      "uid": doctorData.uid,
       "imageUrl": doctorData.imageUrl,
       "name": doctorData.name,
       "speciality": doctorData.speciality
     });
   }
+
+  @override
+  // add appointment data
+  // Future addAppointmentData() async {
+  //   users = FirebaseAuth.instance.currentUser;
+  //   final appointmentData = AppointmentModel(
+  //     Date: '12.3.24',
+  //     Time: '3.20PM',
+  //     DoctorID: 100,
+  //     UserID: users!.uid,
+  //   );
+  //   await db.collection('Appointments').add(<String, dynamic>{
+  //     "Date": appointmentData.Date,
+  //     "Time": appointmentData.Time,
+  //     "DoctorID": appointmentData.DoctorID,
+  //     "UserID": appointmentData.UserID,
+  //   });
+  // }
 
   @override
   Future<dynamic> fetchUserData() async {
@@ -217,11 +243,134 @@ class NetworkApiServices extends BaseApiServices {
     return iconFetchData;
   }
 
+  // Getting all doctor data list
   @override
-  Future<dynamic> getDoctorCardData() async {
-    final doctorData =
-        await db.collection('DoctorsData').doc('doctor_list').get();
-    return doctorData;
+  Future<List<DoctorCardModel>> getAllDoctorList() async {
+    List<DoctorCardModel> allDoctorList = [];
+
+    final allDoctorData =
+        await db.collection('DoctorsData').get().then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((doc) async {
+        allDoctorList
+            .add(DoctorCardModel.fromJson(doc.data() as Map<String, dynamic>));
+      });
+    });
+
+    return allDoctorList;
+  }
+
+// getting appointed doctor details
+  @override
+  Future<List<AppointmentModel>> getDoctorCardData() async {
+    List<AppointmentModel> appointmentList = [];
+    users = FirebaseAuth.instance.currentUser;
+
+    // final appointmentData = await db
+    //     .collection('Appointments')
+    //     .where('UserID', isEqualTo: users!.uid)
+    //     .get()
+    //     .then((QuerySnapshot snapshot) {
+    //   snapshot.docs.forEach((doc) async {
+    //     appointmentList
+    //         .add(AppointmentModel.fromJson(doc.data() as Map<String, dynamic>));
+    //   });
+    // });
+
+    // for (int i = 0; i < appointmentList.length; i++) {
+    //   final doctorsData = await db
+    //       .collection('DoctorsData')
+    //       .where('uid', isEqualTo: appointmentList[i].DoctorID)
+    //       .get()
+    //       .then((QuerySnapshot snapshot) {
+    //     snapshot.docs.forEach((doc) async {
+    //       appointmentList[i] = AppointmentModel(
+    //           Date: appointmentList[i].Date,
+    //           Time: appointmentList[i].Time,
+    //           DoctorID: appointmentList[i].DoctorID,
+    //           UserID: appointmentList[i].UserID,
+    //           doctorCardModel:
+    //               DoctorCardModel.fromJson(doc.data() as Map<String, dynamic>));
+    //     });
+    //   });
+    // }
+    // for (var element in appointmentList) {
+    //   print('appointment list item ${element.DoctorID}');
+    //   print(element);
+    // }
+    // return appointmentList;
+    var appointedDoctor;
+    final appointments = await db
+        .collection('Appointments')
+        .where('UserID', isEqualTo: users!.uid)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((doc) async {
+        appointmentList
+            .add(AppointmentModel.fromJson(doc.data() as Map<String, dynamic>));
+      });
+    });
+    print('current user = ${users!.uid}');
+    print('appointment list == ${appointmentList.length}');
+
+    for (final appointment in appointmentList) {
+      print('appointment Doctor == ${appointment.DoctorID}');
+      final QuerySnapshot doctorData = await db
+          .collection('DoctorsData')
+          .where('uid', isEqualTo: appointment.DoctorID)
+          .get();
+
+      final doctor = doctorData.docs.first;
+      print('filtered doctor data== ${doctor.data()}');
+      appointment.doctorCardModel =
+          DoctorCardModel.fromJson(doctor.data() as Map<String, dynamic>);
+    }
+    // take refrence for sorting
+    // appointmentList.sort((a, b) => a.DateTime.compareTo(b.DateTime));
+
+    print('First element of appointed doctor ${appointmentList}}');
+
+    // Getting Doctors Data after getting appointed Doctor from comparing Doctors and current user appointment
+
+    return appointmentList;
+  }
+
+  @override
+  Future<dynamic> getAppointmentData() async {
+    // List<dynamic> appointment = [];
+    // List<dynamic> doctor = [];
+    // users = FirebaseAuth.instance.currentUser;
+    // final appointmentData = await db
+    //     .collection('Appointments')
+    //     .where('UserID', isEqualTo: users!.uid)
+    //     .get()
+    //     .then((QuerySnapshot snapshot) {
+    //   snapshot.docs.forEach((element) async {
+    //     print('${element['DoctorID']}');
+    //     // Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+    //     // appointment.add(data);
+    //     // appointment.add(element.data());
+    //   });
+    // });
+    // print('doctor name : ${appointment[0]['name']}');
+    // return appointmentData;
+  }
+
+  @override
+  Future<dynamic> getCommonDoctorData() async {
+    List<dynamic> appointmentList = [];
+    CollectionReference appointmentDetails =
+        FirebaseFirestore.instance.collection('Appointments');
+
+    QuerySnapshot querySnapshot =
+        await appointmentDetails.where('UserID', isEqualTo: users!.uid).get();
+    querySnapshot.docs.forEach((doc) {
+      appointmentList
+          .add(AppointmentModel.fromJson(doc.data() as Map<String, dynamic>));
+      for (var element in appointmentList) {
+        print(
+            'Date: ${element.Date}, Name: ${element.Time}, Email: ${element.DoctorID}');
+      }
+    });
   }
 }
 

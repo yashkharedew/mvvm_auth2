@@ -7,7 +7,9 @@ import 'package:mvvm_auth2/view/login_screen.dart';
 import 'package:mvvm_auth2/view_model/add_bottom_nav_view_model.dart';
 import 'package:mvvm_auth2/view_model/auth_view_model.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
+import 'package:mvvm_auth2/view_model/get_all_doctors_view_model.dart';
 import 'package:mvvm_auth2/view_model/get_bottom_icon_view_model.dart';
+import 'package:mvvm_auth2/view_model/get_current_user_appointment_view_model.dart';
 import 'package:mvvm_auth2/view_model/get_doctor_details_view_model.dart';
 import 'package:mvvm_auth2/view_model/get_user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +37,12 @@ class MyApp extends StatelessWidget {
             create: (_) => AddBottomNavViewModel()),
         ChangeNotifierProvider<GetBottomIconViewModel>(
             create: (_) => GetBottomIconViewModel()),
+        ChangeNotifierProvider<GetAllDoctorsViewModel>(
+            create: (_) => GetAllDoctorsViewModel()),
         ChangeNotifierProvider<GetDoctorDetailsViewModel>(
-            create: (_) => GetDoctorDetailsViewModel())
+            create: (_) => GetDoctorDetailsViewModel()),
+        ChangeNotifierProvider<GetCurrentUserAppointmentViewModel>(
+            create: (_) => GetCurrentUserAppointmentViewModel())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
