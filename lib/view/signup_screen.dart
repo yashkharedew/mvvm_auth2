@@ -8,6 +8,8 @@ import 'package:mvvm_auth2/utils/routes/routes_name.dart';
 import 'package:mvvm_auth2/view_model/add_doctor_details_view_model.dart';
 import 'package:mvvm_auth2/view_model/auth_view_model.dart';
 import 'package:mvvm_auth2/view_model/add_user_view_model.dart';
+import 'package:mvvm_auth2/view_model/get_current_user_appointment_view_model.dart';
+import 'package:mvvm_auth2/view_model/get_doctor_details_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../model/user_model.dart';
@@ -46,47 +48,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  // void _addUserData() {
-  //   // db.collection("Users").doc(user?.email).set(
-  //   //   <String, dynamic>{
-  //   //     "uid": user!.uid,
-  //   //     "Name": user!.displayName,
-  //   //     "Email": user!.email
-  //   //   },
-  //   // );
-  //   final userData = UserModel(
-  //       userId: user!.uid,
-  //       fullNames: user!.displayName ?? 'Not Getting UserName',
-  //       email: user!.email ?? 'Not Getting Email');
-
-  //   db.collection("Users").doc(userData.email).set(
-  //     <String, dynamic>{
-  //       "uid": userData.userId,
-  //       "Name": userData.fullNames,
-  //       "Email": userData.email
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
     final addUserViewModel = Provider.of<AddUserViewModel>(context);
     final addBottomViewModel = Provider.of<AddBottomNavViewModel>(context);
+
+    final getDoctorDetailsViewModel =
+        Provider.of<GetDoctorDetailsViewModel>(context);
+    final getCurrentUserAppointmentViewModel =
+        Provider.of<GetCurrentUserAppointmentViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
       ),
       body: SafeArea(
         child: Center(
-          // child: InkWell(
-          //   onTap: () {
-          //     // Utils.toastMsg('Hi Yash! this is a toast message');
-          //     Utils.show_Simple_Snackbar(
-          //         context, 'Hi Yash', 'This is description');
-          //   },
-          //   child: Text('Click Here'),
-          // ),
           child: Column(
             children: [
               TextFormField(
@@ -210,7 +187,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Navigator.pushNamed(
                                 context, RoutesName.navigateScreen),
                             addBottomViewModel.addBottomNavApi(),
-                            addBottomViewModel.addDoctorDetailsApi()
+                            addBottomViewModel.addDoctorDetailsApi(),
+
+                            // getCurrentUserAppointmentViewModel
+                            // .getCurrentUserAppointmentApi(),
                           ])
                         : Utils.toastMsg(
                             'Some Error occured! Again try to sign in');

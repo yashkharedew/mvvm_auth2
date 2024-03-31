@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mvvm_auth2/utils/routes/routes_name.dart';
 import 'package:mvvm_auth2/view/appointments_tab_screen.dart';
 import 'package:mvvm_auth2/view/consult_now_tab_screen.dart';
+import 'package:mvvm_auth2/view/doctor_details/doctor_card_list.dart';
+import 'package:mvvm_auth2/view/doctor_details/doctor_details_screen.dart';
+import 'package:mvvm_auth2/view/doctor_details/sample_doc_screen.dart';
+import 'package:mvvm_auth2/view/home_tab_screen.dart';
 import 'package:mvvm_auth2/view/navigate_screen.dart';
 import 'package:mvvm_auth2/view/login_screen.dart';
 import 'package:mvvm_auth2/view/profile_screen.dart';
@@ -34,6 +38,14 @@ class Routes {
       case RoutesName.consultNowTabScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ConsultNowTabScreen());
+
+      case RoutesName.homeTabScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const HomeTabScreen());
+
+      case RoutesName.sampleDocScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const SampleDocScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {
