@@ -301,7 +301,7 @@ class NetworkApiServices extends BaseApiServices {
     var appointedDoctor;
     final appointments = await db
         .collection('Appointments')
-        .where('UserID', isEqualTo: users!.uid)
+        .where('userId', isEqualTo: users!.uid)
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((doc) async {
@@ -313,10 +313,10 @@ class NetworkApiServices extends BaseApiServices {
     print('appointment list == ${appointmentList.length}');
 
     for (final appointment in appointmentList) {
-      print('appointment Doctor == ${appointment.DoctorID}');
+      print('appointment Doctor == ${appointment.doctorID}');
       final QuerySnapshot doctorData = await db
           .collection('DoctorsData')
-          .where('uid', isEqualTo: appointment.DoctorID)
+          .where('uid', isEqualTo: appointment.doctorID)
           .get();
 
       final doctor = doctorData.docs.first;
@@ -325,7 +325,9 @@ class NetworkApiServices extends BaseApiServices {
           DoctorCardModel.fromJson(doctor.data() as Map<String, dynamic>);
     }
     // take refrence for sorting
-    // appointmentList.sort((a, b) => a.DateTime.compareTo(b.DateTime));
+    appointmentList.sort((a, b) => a.dateTime!.compareTo(b.dateTime as num));
+    appointmentList
+        .sort((a, b) => a.timeMiliSeconds!.compareTo(b.timeMiliSeconds as num));
 
     print('First element of appointed doctor ${appointmentList}}');
 

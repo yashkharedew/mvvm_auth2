@@ -80,6 +80,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             final appointedDay = selectedValue!.day;
             final appointedMonth = selectedValue!.month;
             final appointedYear = selectedValue!.year;
+            final timeMiliSeconds = selectedTimeValue!.millisecondsSinceEpoch;
             final timeslot_hours = selectedTimeValue?.hour;
             final timeslot_minutes = selectedTimeValue?.minute;
             final appointmentTime = timeslot_hours! > 12
@@ -96,11 +97,12 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 '$appointedDay.$appointedMonth.$appointedYear';
 
             db.collection('Appointments').add(<String, dynamic>{
-              "Date": appointementDate,
-              "Time": appointmentTime,
-              "DoctorID": widget.docUid,
-              "UserID": users!.uid,
-              "DateTime": dateTimeMiliSeconds
+              "date": appointementDate,
+              "time": appointmentTime,
+              "doctorID": widget.docUid,
+              "userId": users!.uid,
+              "dateTime": dateTimeMiliSeconds,
+              "timeMiliSeconds": timeMiliSeconds
             });
             await Navigator.pushNamed(context, RoutesName.navigateScreen);
           },
