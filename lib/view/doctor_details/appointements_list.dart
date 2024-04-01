@@ -73,127 +73,141 @@ class _AppointmentsListState extends State<AppointmentsList> {
                     )
                   ],
                 ),
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: buttonPressed ? appointmentList.length : 1,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 50,
-                      shadowColor: Colors.black,
-                      color: Color.fromARGB(255, 0, 112, 137),
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(999.0),
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: Image.network(
-                                      snapshot.data![index].doctorCardModel!
-                                          .imageUrl,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.message,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  size: 30.0,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                appointmentList.isNotEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: buttonPressed ? appointmentList.length : 1,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 50,
+                            shadowColor: Colors.black,
+                            color: Color.fromARGB(255, 0, 112, 137),
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    child: Column(
-                                      // mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          snapshot.data![index].doctorCardModel!
-                                              .name,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 255, 255, 255),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(999.0),
+                                        child: Container(
+                                          width: 40,
+                                          height: 40,
+                                          child: Image.network(
+                                            snapshot.data![index]
+                                                .doctorCardModel!.imageUrl,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          snapshot.data![index].doctorCardModel!
-                                              .speciality,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 255, 255, 255),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                      Icon(
+                                        Icons.message,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        size: 30.0,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 16,
                                   ),
                                   Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          snapshot.data![index].Time,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 255, 255, 255),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                        Container(
+                                          child: Column(
+                                            // mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                snapshot.data![index]
+                                                    .doctorCardModel!.name,
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                snapshot
+                                                    .data![index]
+                                                    .doctorCardModel!
+                                                    .speciality,
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                        SizedBox(
-                                          height: 8,
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                snapshot.data![index].time,
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                snapshot.data![index].date,
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                        Text(
-                                          snapshot.data![index].Date,
-                                          textAlign: TextAlign.end,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 255, 255, 255),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold),
-                                        )
                                       ],
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                            ),
+                          );
+                        },
+                      )
+                    : Text('Currently you have no appointments')
               ],
             );
           }
         } else if (snapshot.hasError) {
           Text('no data');
         }
-        return Text('Currently you have no appointments');
+        return CircularProgressIndicator();
       },
     );
   }
