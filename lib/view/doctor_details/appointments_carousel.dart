@@ -97,19 +97,13 @@ class _AppointmentCarouselState extends State<AppointmentCarousel> {
                                           uid: snapshot.data![itemIndex]
                                               .doctorCardModel!.uid,
                                           fromAppointmentCarousel: true,
-                                          getDateSelect: DateTime
-                                              .fromMicrosecondsSinceEpoch(
-                                                  snapshot.data![itemIndex]
-                                                      as int),
-                                          getTimeSelect: DateTime
+                                          getDateTimeSelect: DateTime
                                               .fromMillisecondsSinceEpoch(
                                                   snapshot.data![itemIndex]
-                                                      .timeMiliSeconds as int),
+                                                      .selectDateTime!),
                                         ),
                                       ),
                                     );
-                                    print(
-                                        'Fetch Appointed Date ==== ${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].dateTime as int)}');
                                   },
                                   child: Card(
                                     elevation: 50,
@@ -216,29 +210,45 @@ class _AppointmentCarouselState extends State<AppointmentCarousel> {
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.end,
                                                     children: [
-                                                      Text(
-                                                        snapshot
-                                                            .data![itemIndex]
-                                                            .time,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    255),
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
+                                                      (DateTime.fromMillisecondsSinceEpoch(snapshot
+                                                                      .data![
+                                                                          itemIndex]
+                                                                      .selectDateTime!)
+                                                                  .hour) >
+                                                              12
+                                                          ? Text(
+                                                              '${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).hour}.${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).minute} PM',
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )
+                                                          : Text(
+                                                              '${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).hour}.${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).minute} AM',
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
                                                       SizedBox(
                                                         height: 8,
                                                       ),
                                                       Text(
-                                                        snapshot
-                                                            .data![itemIndex]
-                                                            .date,
+                                                        '${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).day}.${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).month}.${DateTime.fromMillisecondsSinceEpoch(snapshot.data![itemIndex].selectDateTime!).year}',
                                                         textAlign:
                                                             TextAlign.end,
                                                         style: TextStyle(

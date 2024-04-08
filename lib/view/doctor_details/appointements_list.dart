@@ -167,7 +167,7 @@ class _AppointmentsListState extends State<AppointmentsList> {
                                                 CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                snapshot.data![index].time,
+                                                snapshot.data![index].userId,
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 255, 255, 255),
@@ -179,7 +179,8 @@ class _AppointmentsListState extends State<AppointmentsList> {
                                                 height: 8,
                                               ),
                                               Text(
-                                                snapshot.data![index].date,
+                                                snapshot.data![index].doctorID
+                                                    .toString(),
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
