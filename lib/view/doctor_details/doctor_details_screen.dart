@@ -13,15 +13,13 @@ import '../appointment/date_picker_widget.dart';
 class DoctorDetailScreen extends StatefulWidget {
   final int uid;
   final bool fromAppointmentCarousel;
-  final DateTime? getTimeSelect;
-  final DateTime? getDateSelect;
+  final DateTime? getDateTimeSelect;
 
   const DoctorDetailScreen({
     Key? key,
     required this.uid,
     required this.fromAppointmentCarousel,
-    this.getTimeSelect,
-    this.getDateSelect,
+    this.getDateTimeSelect,
   }) : super(key: key);
 
   @override
@@ -249,8 +247,8 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                           child: widget.fromAppointmentCarousel
                               ? UpdatedDatePicker(
                                   docUid: snapshot.data!['uid'],
-                                  dateSelect: widget.getDateSelect as DateTime,
-                                  timeSelect: widget.getTimeSelect as DateTime,
+                                  dateTimeSelect:
+                                      widget.getDateTimeSelect as DateTime,
                                 )
                               : DatePickerWidget(
                                   docUid: snapshot.data!['uid'],

@@ -111,12 +111,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 appointmentTimeSlot.millisecondsSinceEpoch;
 
             db.collection('Appointments').add(<String, dynamic>{
-              "date": appointementDate,
-              "time": appointmentTime,
               "doctorID": widget.docUid,
               "userId": users!.uid,
-              "dateTime": dateTimeMiliSeconds,
-              "timeMiliSeconds": timeMiliSeconds,
               "selectDateTime": appointmentTimeSlotTimeStamp,
             });
             await Navigator.pushNamed(context, RoutesName.navigateScreen);

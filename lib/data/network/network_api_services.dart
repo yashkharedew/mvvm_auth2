@@ -338,8 +338,7 @@ class NetworkApiServices extends BaseApiServices {
 
     // // take refrence for sorting
     appointmentList
-        .sort((a, b) => a.timeMiliSeconds!.compareTo(b.timeMiliSeconds as num));
-    appointmentList.sort((a, b) => a.dateTime!.compareTo(b.dateTime as num));
+        .sort((a, b) => a.selectDateTime!.compareTo(b.selectDateTime!));
 
     print('First element of appointed doctor ${appointmentList}}');
 

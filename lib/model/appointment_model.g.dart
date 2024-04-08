@@ -8,12 +8,9 @@ part of 'appointment_model.dart';
 
 AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
     AppointmentModel(
-      date: json['date'] as String,
-      time: json['time'] as String,
       doctorID: json['doctorID'] as int,
       userId: json['userId'] as String,
-      dateTime: json['dateTime'] as int?,
-      timeMiliSeconds: json['timeMiliSeconds'] as int?,
+      selectDateTime: json['selectDateTime'] as int?,
       doctorCardModel: json['doctorCardModel'] == null
           ? null
           : DoctorCardModel.fromJson(
@@ -22,11 +19,8 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
     <String, dynamic>{
-      'date': instance.date,
-      'time': instance.time,
       'doctorID': instance.doctorID,
       'userId': instance.userId,
-      'dateTime': instance.dateTime,
-      'timeMiliSeconds': instance.timeMiliSeconds,
+      'selectDateTime': instance.selectDateTime,
       'doctorCardModel': instance.doctorCardModel,
     };

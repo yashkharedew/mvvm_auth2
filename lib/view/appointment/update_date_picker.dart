@@ -16,14 +16,12 @@ import '../../view_model/get_doctor_details_view_model.dart';
 
 class UpdatedDatePicker extends StatefulWidget {
   final int docUid;
-  final DateTime timeSelect;
-  final DateTime dateSelect;
+  final DateTime dateTimeSelect;
 
   const UpdatedDatePicker({
     Key? key,
     required this.docUid,
-    required this.timeSelect,
-    required this.dateSelect,
+    required this.dateTimeSelect,
   }) : super(key: key);
 
   @override
@@ -44,7 +42,7 @@ class _UpdatedDatePickerState extends State<UpdatedDatePicker> {
         Container(
           child: TimesSlotGridViewFromInterval(
             locale: "en",
-            initTime: selectedTimeValue ?? widget.timeSelect,
+            initTime: selectedTimeValue ?? widget.dateTimeSelect,
             crossAxisCount: 4,
             selectedColor: Color.fromARGB(255, 62, 204, 243),
             timeSlotInterval: const TimeSlotInterval(
@@ -65,7 +63,7 @@ class _UpdatedDatePickerState extends State<UpdatedDatePicker> {
         Container(
           child: DatePicker(
             dateTime,
-            initialSelectedDate: selectedValue ?? widget.dateSelect,
+            initialSelectedDate: selectedValue ?? widget.dateTimeSelect,
             selectionColor: Color.fromARGB(255, 62, 204, 243),
             selectedTextColor: Colors.white,
             onDateChange: (date) {
@@ -123,12 +121,8 @@ class _UpdatedDatePickerState extends State<UpdatedDatePicker> {
             var querySnapshots = await collection.get();
             for (var doc in querySnapshots.docs) {
               await doc.reference.update(<String, dynamic>{
-                "date": appointementDate,
-                "time": appointmentTime,
                 "doctorID": widget.docUid,
                 "userId": users.uid,
-                "dateTime": dateTimeMiliSeconds,
-                "timeMiliSeconds": timeMiliSeconds,
                 "selectDateTime": appointmentTimeSlotTimeStamp,
               });
             }

@@ -10,23 +10,17 @@ part 'appointment_model.g.dart';
 
 @JsonSerializable()
 class AppointmentModel {
-  final String date;
-  final String time;
   late final int doctorID;
   final String userId;
-  int? dateTime;
-  int? timeMiliSeconds;
+  int? selectDateTime;
   DoctorCardModel? doctorCardModel;
   // final String imageUrl;
   // final String name;
   // final String speciality;
   AppointmentModel(
-      {required this.date,
-      required this.time,
-      required this.doctorID,
+      {required this.doctorID,
       required this.userId,
-      this.dateTime,
-      this.timeMiliSeconds,
+      this.selectDateTime,
       this.doctorCardModel});
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
