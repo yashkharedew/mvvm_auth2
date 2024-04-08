@@ -6,14 +6,22 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mvvm_auth2/arguments/doctor_details_arguments.dart';
 import 'package:mvvm_auth2/model/doctor_card_model.dart';
+import 'package:mvvm_auth2/view/appointment/update_date_picker.dart';
 
 import '../appointment/date_picker_widget.dart';
 
 class DoctorDetailScreen extends StatefulWidget {
   final int uid;
+  final bool fromAppointmentCarousel;
+  final DateTime? getTimeSelect;
+  final DateTime? getDateSelect;
+
   const DoctorDetailScreen({
     Key? key,
     required this.uid,
+    required this.fromAppointmentCarousel,
+    this.getTimeSelect,
+    this.getDateSelect,
   }) : super(key: key);
 
   @override
@@ -237,11 +245,16 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DatePickerWidget(
-                          docUid: snapshot.data!['uid'],
-                        ),
-                      )
+                          padding: const EdgeInsets.all(8.0),
+                          child: widget.fromAppointmentCarousel
+                              ? UpdatedDatePicker(
+                                  docUid: snapshot.data!['uid'],
+                                  dateSelect: widget.getDateSelect as DateTime,
+                                  timeSelect: widget.getTimeSelect as DateTime,
+                                )
+                              : DatePickerWidget(
+                                  docUid: snapshot.data!['uid'],
+                                ))
                     ],
                   ),
                 ),

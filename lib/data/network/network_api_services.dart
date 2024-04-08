@@ -299,6 +299,7 @@ class NetworkApiServices extends BaseApiServices {
     // }
     // return appointmentList;
     var appointedDoctor;
+
     final appointments = await db
         .collection('Appointments')
         .where('userId', isEqualTo: users!.uid)
@@ -324,15 +325,36 @@ class NetworkApiServices extends BaseApiServices {
       appointment.doctorCardModel =
           DoctorCardModel.fromJson(doctor.data() as Map<String, dynamic>);
     }
-    // take refrence for sorting
-    appointmentList.sort((a, b) => a.dateTime!.compareTo(b.dateTime as num));
+//  take reference for expire appointments
+
+    // final pastTimeAppointment = await db
+    //     .collection('Appointments')
+    //     .where('timeMiliSeconds',
+    //         isLessThan: DateTime.now().millisecondsSinceEpoch)
+    //     .get();
+    // for (var doc in pastTimeAppointment.docs) {
+    //   doc.reference.delete();
+    // }
+
+    // // take refrence for sorting
     appointmentList
         .sort((a, b) => a.timeMiliSeconds!.compareTo(b.timeMiliSeconds as num));
+    appointmentList.sort((a, b) => a.dateTime!.compareTo(b.dateTime as num));
 
     print('First element of appointed doctor ${appointmentList}}');
 
     // Getting Doctors Data after getting appointed Doctor from comparing Doctors and current user appointment
 
+    final pastDateAppointment = await db
+        .collection('Appointments')
+        .where('selectDateTime',
+            isLessThan: DateTime.now().millisecondsSinceEpoch)
+        .get();
+    for (var doc in pastDateAppointment.docs) {
+      doc.reference.delete();
+    }
+
+    print('Current TimeStamp is + ${DateTime.now().microsecondsSinceEpoch}');
     return appointmentList;
   }
 

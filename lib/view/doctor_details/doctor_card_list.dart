@@ -100,6 +100,7 @@ class _DoctorCardListState extends State<DoctorCardList> {
                                   .push(MaterialPageRoute(
                                       builder: (context) => DoctorDetailScreen(
                                             uid: snapshot.data![index].uid,
+                                            fromAppointmentCarousel: false,
                                           )));
                             },
                             child: Card(
