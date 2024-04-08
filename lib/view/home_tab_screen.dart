@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mvvm_auth2/view/appointment/date_picker_widget.dart';
 import 'package:mvvm_auth2/view/appointment/time_picker_widget.dart';
 import 'package:mvvm_auth2/view/doctor_details/appointements_list.dart';
+import 'package:mvvm_auth2/view/doctor_details/appointments_carousel.dart';
 import 'package:mvvm_auth2/view/doctor_details/collection_list.dart';
 import 'package:mvvm_auth2/view/doctor_details/doctor_card.dart';
 import 'package:mvvm_auth2/view/doctor_details/doctor_card_list.dart';
@@ -37,7 +38,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppointmentsList(),
+                  // AppointmentsList(),
+                  AppointmentCarousel(),
                   DoctorCardList(),
                 ],
               ),
